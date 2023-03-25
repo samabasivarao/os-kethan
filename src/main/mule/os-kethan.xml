@@ -25,6 +25,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<os:retrieve-all-keys doc:name="Retrieve all keys" doc:id="02bd162e-fafd-4e2e-8f12-b83e810f4014" objectStore="vochardemo"/>
 		<logger level="INFO" doc:name="Logger" doc:id="98d75104-67a6-4201-ac70-832340407c5a" message="retriev all keys data #[payload]"/>
 		<os:retrieve-all doc:name="Retrieve all" doc:id="4f5d2673-47d9-4d1f-bd88-8026ee431d0d" objectStore="vochardemo"/>
+		<logger level="INFO" doc:name="Logger" doc:id="2763643a-f243-4f1a-a526-c58a12e1beaf" message="#[payload]"/>
 		<os:retrieve doc:name="Retrieve" doc:id="1d674423-659d-412c-bcf5-a7b450386102" key="kethan" objectStore="vochardemo"/>
 		<os:contains doc:name="Contains" doc:id="b44cb29b-6e6b-48ec-953b-2cf4ddd9183d" key="samba" objectStore="vochardemo"/>
 		<ee:transform doc:name="Transform Message" doc:id="1ede4229-7f30-4f65-977a-42e99db1b84c">
@@ -35,5 +36,7 @@ output application/json
 payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="81ac0f19-d8d4-4c7f-aa4c-08d6fda1bc4e" message="#[payload]"/>
+		<set-payload value='#["kethan demo completed"]' doc:name="Set Payload" doc:id="436ee354-c02d-43b7-b94b-96ff7205610b" />
 	</flow>
 </mule>
