@@ -37,6 +37,6 @@ payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 		<logger level="INFO" doc:name="Logger" doc:id="81ac0f19-d8d4-4c7f-aa4c-08d6fda1bc4e" message="#[payload]"/>
-		<set-payload value='#["kethan demo completed"]' doc:name="Set Payload" doc:id="436ee354-c02d-43b7-b94b-96ff7205610b" />
+		<set-payload value='#["kethan demo completed on git hub and git bash "]' doc:name="Set Payload" doc:id="436ee354-c02d-43b7-b94b-96ff7205610b" />
 	</flow>
 </mule>
