@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="04564045-9cba-48c6-9594-34917d9ce4e7" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<os:config name="ObjectStore_Config" doc:name="ObjectStore Config" doc:id="325bec1c-ba72-41e2-8240-24ac9930288e" >
+		<os:connection >
+			<reconnection >
+				<reconnect />
+			</reconnection>
+		</os:connection>
+	</os:config>
+	<os:object-store name="vochardemo" doc:name="Object store" doc:id="66d2ddba-2810-4b26-94ba-0e740d6350e4" entryTtl="2" entryTtlUnit="HOURS" expirationInterval="5" config-ref="ObjectStore_Config" />
+	<flow name="os-kethanFlow" doc:id="da34062f-9e16-4cae-bee6-9f87edc284f5" >
+		<http:listener doc:name="Listener" doc:id="b70328a9-e3bd-436a-b973-2efc6e5ea1ee" config-ref="HTTP_Listener_config" path="/store"/>
+		<logger level="INFO" doc:name="Logger" doc:id="fb3adf23-a822-41be-96c6-c00f98afcdd5" message="#[payload]"/>
+		<os:store doc:name="Store" doc:id="b18f1df5-82d0-4b85-a96f-b405f3f79b78" key="samba" objectStore="vochardemo"/>
+		<logger level="INFO" doc:name="Logger" doc:id="1ae93fa8-3bb5-4c38-b5d0-e2a5a1f45c81" message="#[payload]"/>
+		<os:retrieve-all-keys doc:name="Retrieve all keys" doc:id="02bd162e-fafd-4e2e-8f12-b83e810f4014" objectStore="vochardemo"/>
+		<logger level="INFO" doc:name="Logger" doc:id="98d75104-67a6-4201-ac70-832340407c5a" message="retriev all keys data #[payload]"/>
+		<os:retrieve-all doc:name="Retrieve all" doc:id="4f5d2673-47d9-4d1f-bd88-8026ee431d0d" objectStore="vochardemo"/>
+		<os:retrieve doc:name="Retrieve" doc:id="1d674423-659d-412c-bcf5-a7b450386102" key="kethan" objectStore="vochardemo"/>
+		<os:contains doc:name="Contains" doc:id="b44cb29b-6e6b-48ec-953b-2cf4ddd9183d" key="samba" objectStore="vochardemo"/>
+		<ee:transform doc:name="Transform Message" doc:id="1ede4229-7f30-4f65-977a-42e99db1b84c">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
